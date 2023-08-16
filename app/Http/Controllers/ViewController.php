@@ -52,4 +52,18 @@ class ViewController extends Controller
             'isEnable' => true
         ]);
     }
+
+    public function master(){
+        return view('view.master',[
+            'msg' => 'Hello World'
+        ]);
+    }
+
+    public function comp(){
+        $data = [
+            'title' => 'Hello World',
+            'comp' => 'my-alert'
+        ];
+        return view('view.comp', $data);
+    }
 }
