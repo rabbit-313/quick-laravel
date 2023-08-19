@@ -54,7 +54,14 @@ class CtrlController extends Controller
 
     public function result(Request $req){
         $name = $req->name;
-        return view('ctrl.form', ['result'=>'こんにちは、' . $name . 'さん！']);
+        if (empty($name) || 10 < mb_strlen($name)){
+            return redirect('ctrl/form')
+                ->withInput()
+                ->with('alert', '名前は必須、または10文字以内で入力してください。');
+        }else{
+            return view('ctrl.form', ['result'=>'こんにちは、' . $name . 'さん！']);
+        }
+        // return view('ctrl.form', ['result'=>'こんにちは、' . $name . 'さん！']);
     }
 
     public function upload(){
@@ -76,5 +83,9 @@ class CtrlController extends Controller
 
         $file->storeAs('files', $name);
         return view('ctrl.upload', ['result'=>$name . 'をアップロードしました。']);
+    }
+
+    public function middle(){
+        return 'chech log file!';
     }
 }

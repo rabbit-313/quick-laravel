@@ -4,6 +4,10 @@ use Illuminate\Support\Facades\Route;
 use \App\Http\Controllers\HelloController;
 use \App\Http\Controllers\ViewController;
 use \App\Http\Controllers\CtrlController;
+use App\Http\Controllers\RecordController;
+use App\Http\Controllers\SaveController;
+use App\Http\Controllers\StateController;
+use \App\Http\Middleware\LogMiddleware;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -70,12 +74,30 @@ Route::controller(CtrlController::class)->group(function(){
     Route::post('/ctrl/result', 'result');
     Route::get('/ctrl/upload', 'upload');
     Route::post('/ctrl/uploadfile', 'uploadfile');
+    Route::get('/ctrl/middle', 'middle');
    
 });
 
+Route::group(['middleware' => ['debug']], function(){
+    Route::get('/ctrl/middle', 'CtrlController@middle');
+});
 
+Route::controller(StateController::class)->group(function(){
+    Route::get('/state/rec_cookie', 'recCookie');
+    Route::get('/state/rec_readcookie', 'readCookie');
+    Route::post('/state/session1', 'session1');
+});
 
-
+Route::controller(RecordController::class)->group(function(){
+    Route::get('/record/hasmany', 'hasmany');
+});
 // Route::get('/ctrl/outjson', 'CtrlController@outJson');
 
-
+Route::controller(SaveController::class)->group(function(){
+    Route::get('/save/create', 'create');
+    Route::post('/save', 'store');
+    Route::get('/save/{id}/edit', 'edit');
+    Route::patch('/save/{id}', 'update');
+    Route::get('/save/{id}', 'show');
+    Route::delete('/save/{id}', 'destroy');
+});
